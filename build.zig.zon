@@ -1,15 +1,8 @@
 .{
-    .name = "googletest",
-    .version = "1.15.2",
-    .dependencies = .{
-        .googletest = .{
-            .url = "https://github.com/google/googletest/archive/refs/tags/v1.15.2.tar.gz",
-            .hash = "122001093b5794ecf5a5b53887622c75d633af2b0c3402a266ce45c6aa4d179c53ba",
-        },
-    },
-    .paths = .{
-        "build.zig",
-        "build.zig.zon",
-        "LICENSE",
-    },
+    .name = .googletest,
+    .version = "1.17.0",
+    .fingerprint = 0xc36e6f7a168f0cc9,
+    .minimum_zig_version = "0.15.1",
+    .dependencies = .{ .googletest = .{ .url = "https://github.com/google/googletest/releases/download/v1.17.0/googletest-1.17.0.tar.gz", .hash = "N-V-__8AAEV8PgDOBc81AuVJQ9XhGo46f-4dlQ7sXar_M0_i" } },
+    .paths = .{ "README.md", "build.zig", "build.zig.zon", "LICENSE", "include/" },
 }
