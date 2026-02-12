@@ -1,10 +1,10 @@
 .{
-    .name = "googletest",
+    .name = .googletest,
     .version = "1.15.2",
     .dependencies = .{
         .googletest = .{
-            .url = "https://github.com/google/googletest/archive/refs/tags/v1.15.2.tar.gz",
-            .hash = "122001093b5794ecf5a5b53887622c75d633af2b0c3402a266ce45c6aa4d179c53ba",
+            .url = "https://github.com/google/googletest/archive/refs/tags/v1.17.0.tar.gz",
+            .hash = "N-V-__8AAEV8PgDOBc81AuVJQ9XhGo46f-4dlQ7sXar_M0_i",
         },
     },
     .paths = .{
@@ -12,4 +12,6 @@
         "build.zig.zon",
         "LICENSE",
     },
+    .minimum_zig_version = "0.15.2",
+    .fingerprint = 0xc36e6f7ae639b5bc,
 }
