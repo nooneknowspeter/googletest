@@ -13,19 +13,10 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
         target: [
           native,
-          x86_64-linux-gnu,
-          x86_64-linux-musl,
-          x86_64-windows,
-          aarch64-macos,
-          aarch64-linux-gnu,
-          aarch64-linux-musl
+          native-linux-gnu,
+          native-linux-musl,
+          native-windows,
           # TODO: bsd
-        ]
-        optimize: [
-          Debug,
-          ReleaseSafe,
-          ReleaseFast,
-          ReleaseSmall
         ]
     runs-on: ${{ matrix.os }}
     steps:
@@ -37,4 +28,4 @@ jobs:
           version: 0.16.0
 
       - name: Build
-        run: zig build samples -Dtarget=${{ matrix.target }} -Doptimize=${{ matrix.optimize }}
+        run: zig build samples -Dtarget=${{ matrix.target }}
