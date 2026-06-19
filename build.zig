@@ -11,9 +11,10 @@ pub fn build(b: *std.Build) void {
         .root_module = b.createModule(.{
             .target = target,
             .optimize = optimize,
+            .link_libcpp = true,
         }),
     });
-    gtest.linkLibCpp();
+
     gtest.root_module.addCSourceFile(.{
         .file = gtest_dep.path("googletest/src/gtest-all.cc"),
         .flags = &.{"-std=c++17"},
@@ -28,9 +29,9 @@ pub fn build(b: *std.Build) void {
         .root_module = b.createModule(.{
             .target = target,
             .optimize = optimize,
+            .link_libcpp = true,
         }),
     });
-    gtest_main.linkLibCpp();
     gtest_main.root_module.addCSourceFile(.{
         .file = gtest_dep.path("googletest/src/gtest_main.cc"),
         .flags = &.{"-std=c++17"},
@@ -45,17 +46,18 @@ pub fn build(b: *std.Build) void {
         .root_module = b.createModule(.{
             .target = target,
             .optimize = optimize,
+            .link_libcpp = true,
         }),
     });
     gmock.root_module.addCSourceFile(.{
         .file = gtest_dep.path("googlemock/src/gmock-all.cc"),
         .flags = &.{"-std=c++17"},
     });
-    gmock.linkLibCpp();
-    gmock.addIncludePath(gtest_dep.path("googlemock/include"));
-    gmock.addIncludePath(gtest_dep.path("googlemock"));
+
+    gmock.root_module.addIncludePath(gtest_dep.path("googlemock/include"));
+    gmock.root_module.addIncludePath(gtest_dep.path("googlemock"));
     gmock.installHeadersDirectory(gtest_dep.path("googlemock/include"), ".", .{});
-    gmock.linkLibrary(gtest);
+    gmock.root_module.linkLibrary(gtest);
     b.installArtifact(gmock);
 
     const samples_exe = b.addExecutable(.{
@@ -65,7 +67,7 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
         }),
     });
-    samples_exe.addCSourceFiles(.{
+    samples_exe.root_module.addCSourceFiles(.{
         .root = gtest_dep.path("googletest/samples"),
         .files = &.{
             "sample1_unittest.cc",
@@ -81,8 +83,8 @@ pub fn build(b: *std.Build) void {
             "sample8_unittest.cc",
         },
     });
-    samples_exe.linkLibrary(gtest);
-    samples_exe.linkLibrary(gtest_main);
+    samples_exe.root_module.linkLibrary(gtest);
+    samples_exe.root_module.linkLibrary(gtest_main);
     b.installArtifact(samples_exe);
 
     // Samples 9 and 10 define their own entrypoint.
@@ -93,13 +95,13 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
         }),
     });
-    sample9_exe.addCSourceFiles(.{
+    sample9_exe.root_module.addCSourceFiles(.{
         .root = gtest_dep.path("googletest/samples"),
         .files = &.{
             "sample9_unittest.cc",
         },
     });
-    sample9_exe.linkLibrary(gtest);
+    sample9_exe.root_module.linkLibrary(gtest);
     b.installArtifact(sample9_exe);
 
     const sample10_exe = b.addExecutable(.{
@@ -109,11 +111,11 @@ pub fn build(b: *std.Build) void {
             .optimize = optimize,
         }),
     });
-    sample10_exe.addCSourceFiles(.{
+    sample10_exe.root_module.addCSourceFiles(.{
         .root = gtest_dep.path("googletest/samples"),
         .files = &.{"sample10_unittest.cc"},
     });
-    sample10_exe.linkLibrary(gtest);
+    sample10_exe.root_module.linkLibrary(gtest);
     b.installArtifact(sample10_exe);
 
     const samples_step = b.step("samples", "Build the sample tests");
